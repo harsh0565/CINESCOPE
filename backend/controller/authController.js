@@ -126,7 +126,7 @@ export const loginController = async (req, res) => {
 
     // Check if user exists
     if (!user) {
-      return res.status(404).send({
+      return res.send({
         success: false,
         message: "Email is not registered",
       });
@@ -135,7 +135,7 @@ export const loginController = async (req, res) => {
     // Compare passwords
     const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.status(400).send({
+      return res.send({
         success: false,
         message: "Incorrect password",
       });
@@ -147,7 +147,7 @@ export const loginController = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: "Login successful",
+      message: "Login successfully",
       token: token,
       user: {
         name: user.name,
@@ -298,7 +298,7 @@ export const FavouriteMovie = async (req, res) => {
 
 export const fetchFavourite = async (req, res) => {
   try {
-  console.log(req.body.email);
+  // console.log(req.body.email);
     const favourites = await FavouriteModel.find({email: req.body.email});
     // console.log(favourites)
 res.send(favourites);
@@ -338,3 +338,31 @@ export const updateUser = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 }
+
+export const deleteFavourite = async (req, res) => {
+  const { email, movieId } = req.body;
+  try {
+    // Find the user by email and update the movies array by pulling the specific movie object by its _id
+    const updatedFavourite = await FavouriteModel.findOneAndUpdate(
+      { email: email },
+      { $pull: { movies: { _id: movieId } } }, // $pull removes the movie with the specified _id from the array
+      { new: true } // Return the updated document after the modification
+    );
+
+    // If the user is not found or the update fails
+    if (!updatedFavourite) {
+      return res.send({
+        success: false,
+        message: "User not found or movie not in favourites",
+      });
+    }
+
+    return res.send({
+      success: true,
+      message: "Movie removed from favourites",
+      updatedFavourite,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

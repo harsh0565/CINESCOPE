@@ -1,5 +1,5 @@
 import express from "express"
-import { FavouriteMovie, fetchFavourite, loginController, popular_Movies, Profile, registerController, SearchMovie, Trending_Movies, Unauthorize, updateUser } from "../controller/authController.js";
+import { deleteFavourite, FavouriteMovie, fetchFavourite, loginController, popular_Movies, Profile, registerController, SearchMovie, Trending_Movies, Unauthorize, updateUser } from "../controller/authController.js";
 
 const router = express.Router();
 
@@ -15,6 +15,7 @@ router.get("/popularMovies", popular_Movies)
 router.get("/searchMovie/:query" , SearchMovie);
 router.post("/addToFavourite",FavouriteMovie);
 router.post("/fetchFavourite",fetchFavourite);
+router.put("/deleteFavourite",deleteFavourite);
 router.get("/*",Unauthorize);
 
 

@@ -7,16 +7,18 @@ import "bootstrap/dist/js/bootstrap.js"
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/auth.jsx'
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
     <BrowserRouter>
-    <AuthProvider>
+      <AuthProvider>
 
-      
-      <App />
-    </AuthProvider>
+        <ToastContainer position="top-center"
+          reverseOrder={false} />
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )

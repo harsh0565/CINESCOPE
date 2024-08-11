@@ -63,15 +63,6 @@ const Movie = () => {
                       </div>
                     </div>
                   </div>
-
-                  // <div key={index}>
-                  //   <img src={e.Poster} alt="loading" />
-                  //   <h3>{e.Title}</h3>
-                  //   <button onClick={handleClick} className={`btn bg-${bgColor}`}><i  className="bi bi-heart-fill"></i></button>
-                  //   <p>Year: {e.Year}</p>
-                  //   <p>Genre: {e.Released}</p>
-                  //   <p>Description: {e.Plot}</p>
-                  // </div>
                 ))}
               </li>
             </ul>

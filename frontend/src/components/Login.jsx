@@ -1,6 +1,8 @@
 import React, { useState , useEffect } from 'react'
 import { useNavigate ,Link } from 'react-router-dom'
 import axios from "axios"
+import { toast } from 'react-toastify';
+  
 import { useAuth } from '../context/auth';
 const Login = () => {
 
@@ -22,13 +24,13 @@ const Login = () => {
     const submitForm = async (e) => {
         e.preventDefault();
 
+        
         try {
            
             await axios.post("http://localhost:3000/api/v1/login", user).then((response) => {
-                console.log(response);
+                toast.success(response.data.message);
                 if (response.data.token) {
                     localStorage.setItem('token' , response.data.token);
-                    console.log(response.data);
                     localStorage.setItem('name' ,(response.data.user.name));
                     localStorage.setItem('email' ,(response.data.user.email));
                     setAuth({

@@ -13,6 +13,7 @@ import FavouriteMovie from './components/User/FavouriteMovie'
 const App = () => {
   return (
     <div>
+   
       <Navbar/>
       {/* <Register/> */}
       <Routes>

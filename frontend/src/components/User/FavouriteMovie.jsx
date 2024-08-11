@@ -1,24 +1,41 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const FavouriteMovie = () => {
     const [favourite, setFavourite] = useState([]);
+    const navigate = useNavigate();
 
+    const fetchFavourite = async () => {
+        try {
+            const email = localStorage.getItem("email");
+            console.log(email);
+            const res = await axios.post("http://localhost:3000/api/v1/fetchFavourite", { email });
+            console.log(res.data[0].movies);
+            setFavourite(res.data[0].movies);
+        } catch (err) {
+            console.log(err);
+        }
+    };
     useEffect(() => {
-        const fetchFavourite = async () => {
-            try {
-                const email = localStorage.getItem("email");
-                console.log(email);
-                const res = await axios.post("http://localhost:3000/api/v1/fetchFavourite", { email });
-                console.log(res.data[0].movies);
-                setFavourite(res.data[0].movies);
-            } catch (err) {
-                console.log(err);
-            }
-        };
 
         fetchFavourite();
     }, []);
+    
+    const handleDelete = async (id) => {
+        try {
+            const email = localStorage.getItem("email");
+            await axios.put("http://localhost:3000/api/v1/deleteFavourite", { email, movieId: id }).then((res)=>{
+                console.log(res.data.updatedFavourite.movies);
+                fetchFavourite();
+            }).catch((err)=>{
+                console.log(err);
+            })
+      
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return (
         <>
@@ -32,7 +49,6 @@ const FavouriteMovie = () => {
                     <>
                         <div key={index} className="col-md-4 mb-4">
                             <div className="card h-100">
-                                {/* <img src={e.Poster} className="card-img-top" /> */}
                                 <div className="card-body">
                                     <h5 className="card-title">{e.title}</h5>
                                     <p className="card-text">{e.overview}</p>
@@ -40,7 +56,7 @@ const FavouriteMovie = () => {
                                 <div className="card-footer">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <span className="text-muted">Rating: /5</span>
-                                        <button className="btn btn-danger">Remove</button>
+                                        <button className="btn btn-danger" onClick={()=> handleDelete(e._id)}>Remove</button>
                                     </div>
                                 </div>
                             </div>

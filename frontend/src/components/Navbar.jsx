@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useMovie } from '../context/auth';
 import axios from 'axios';
-import logo from "../images/logo.jpg"
+import { toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
+
 
 const Navbar = () => {
   const [movie, setMovie] = useMovie();
@@ -19,6 +21,7 @@ const Navbar = () => {
   },[localStorage.getItem("name")]);
   const handleDeleteItem = () => {
     localStorage.clear();
+    toast("Logout Successfully");
     navigate('/');
     console.log('Item deleted from localStorage');
   };

@@ -13,10 +13,6 @@ const UserDashBoard = () => {
         password: ""
     });
 
-    // useEffect(() => {
-    //     // Fetch user data from API or local storage
-    //     // Example: axios.get('API_URL').then(response => setUser(response.data));
-    // }, []);
 
     const inputHandler = (e) => {
         const { name, value } = e.target;
